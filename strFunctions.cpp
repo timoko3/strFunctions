@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
+
 #include "strFunctions.h"
 
 int myPuts(const char* str){
@@ -21,7 +22,6 @@ const char* myStrChr(const char* str, int ch){
     assert(str);
     
     int i = 0;
-
     while(str[i] != (char)ch){
         if(str[i] == '\0'){
             return NULL;
@@ -36,7 +36,7 @@ size_t myStrLen(const char* start){
     assert(start);
 
     int i = 0;
-    while(start[i] != '\0')i++;
+    while(start[i] != '\0') i++;
 
     return i;
 }
@@ -73,6 +73,9 @@ char* myStrNCpy(char* dest, const char* src, size_t n){
 }
 
 char* myStrCat(char* dest, const char* src){
+    assert(dest);
+    assert(src);
+
     char* endDest = (char*) myStrChr((const char*) dest, '\0'); 
     myStrCpy(endDest, src);
 
@@ -80,6 +83,9 @@ char* myStrCat(char* dest, const char* src){
 }
 
 char* myStrNCat(char* dest, const char* src, size_t n){
+    assert(dest);
+    assert(src);
+
     char* endDest = (char*) myStrChr((const char*) dest, '\0');
     myStrNCpy(endDest, src, n);
     
@@ -97,52 +103,41 @@ char* myFGets(char* str, int count, FILE* stream){
         i++;
     }
     str[i] = '\0';
-    
+
     return str;
 }
 
 char* myStrDup(const char *str){
-    size_t size = sizeof(char) * (myStrLen(str)); // 
+    assert(str);
 
-    char* newStr = (char*) malloc(size); ////////////////////
-    // assert / if
-    int unsigned i = 0;
-    for(; i < size; i++){
-        newStr[i] = str[i];
-    }
-    newStr[i] = '\0';
-    // copy
+    char* newStr = (char*)calloc(myStrLen(str) + 1, sizeof(char)); 
+    assert(newStr);
+    
+    myStrCpy(newStr, str);
 
     return newStr;
 }
 
 size_t myGetLine(char** lineptr, size_t* n, FILE* stream){
-    int i = 0;
-    for(; i < *n; i++){
-        (*lineptr)[i] = fgetc(stream);
-        if((*lineptr)[i] == '\n'){
-            i++;
-            (*lineptr)[i] = '\0';
-            return i;
-        }
-    } // myFGets
-
-    char ch;
-    while((ch = fgetc(stream)) != '\n'){
-        i++;
-        char* newPtr = (char*) realloc(*lineptr, sizeof(char) * (i));
-        // assert
-        // *lineptr = (char*) realloc(*lineptr, sizeof(char) * (i));
-        newPtr[i] = ch;
+    assert(lineptr);
+    assert(n);
+    assert(stream);
+    
+    char ch = '\0';
+    while((ch = (char)fgetc(stream)) != '\n'){
+        char* newPtr = (char*) realloc(*lineptr, sizeof(char) * (*n + 1));
+        assert(newPtr);
         *lineptr = newPtr;
+        (*lineptr)[*n] = ch;
+        
+        (*n)++;
     }
-    i++;
-    lineptr[i] = '\0';
+    lineptr[*n] = '\0';
+    (*n)++;
 
-    return i + 1;
+    return *n;
 }
 
-// atoi
 int mysStrCmpBeta(const char* lhs, const char* rhs){
     size_t i = 0;
     while(rhs[i] != '\0' || lhs[i] != '\0'){ // O(min(n, m))
