@@ -1,6 +1,6 @@
 #include "strFunctions.h"
 
-#include <stdlib.h>
+//#include <stdlib.h>
 
 const char* TEST_PHRASE      = "hello";
 const char* TEST_PHRASE2     = "world!";
@@ -18,22 +18,23 @@ int main(void){
     // printf("%d\n", myStrLen(TEST_PHRASE));
 
     // printf("%s\n", myStrCpy(copyTest, TEST_PHRASE));
-    printf("%s\n", myStrNCpy(copyTest, TEST_PHRASE, n));
+    // printf("%s\n", myStrNCpy(copyTest, TEST_PHRASE, n));
 
-    printf("%s\n", myStrCat(result, TEST_PHRASE2));
-    printf("%s\n", myStrNCat(result, TEST_PHRASE2, 2));
+    // printf("%s\n", myStrCat(result, TEST_PHRASE2));
+    // printf("%s\n", myStrNCat(result, TEST_PHRASE2, 2));
 
     //printf("%s\n", myFGets(result, 10, stdin));
 
-    char* duplicate = myStrDup(TEST_PHRASE2);
-    printf("%s\n", duplicate);
-    free(duplicate);
-    duplicate = NULL;
+    // char* duplicate = myStrDup(TEST_PHRASE2);
+    // printf("%s\n", duplicate);
+    // free(duplicate);
+    // duplicate = NULL;
 
-    char* line;
-    size_t bufSize = 0;
-    line = (char*) calloc(1, sizeof(char));
-    printf("%d\n", myGetLine(&line, &bufSize, stdin));
-    free(line);
-    line = NULL;
+    // char* line;
+    // size_t bufSize = 0;
+    // line = (char*) calloc(1, sizeof(char));
+    // printf("%d\n", myGetLine(&line, &bufSize, stdin));
+    // free(line);
+    // line = NULL;
+    printf("%d\n", myAtoi("vssfsf54632.1035s fs24 4546") + 5);
 }

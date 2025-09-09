@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
+#include <ctype.h>
 
 #include "strFunctions.h"
+
+static void skipNotN(const char* str, int* curSym);
+static int convertSymToInt(const char* str, int i);
 
 int myPuts(const char* str){
     assert(str);
@@ -65,9 +69,7 @@ char* myStrNCpy(char* dest, const char* src, size_t n){
         i++;
     }
 
-    if(i == n){
-        dest[i] = '\0';
-    }
+    dest[i] = '\0';
 
     return dest;
 }
@@ -125,11 +127,12 @@ size_t myGetLine(char** lineptr, size_t* n, FILE* stream){
     
     char ch = '\0';
     while((ch = (char)fgetc(stream)) != '\n'){
+        /// +1 резерв для '\0'
         char* newPtr = (char*) realloc(*lineptr, sizeof(char) * (*n + 1));
         assert(newPtr);
         *lineptr = newPtr;
+
         (*lineptr)[*n] = ch;
-        
         (*n)++;
     }
     lineptr[*n] = '\0';
@@ -162,7 +165,37 @@ const char* myStrStr(const char* str, const char* substr){ // O(n*m) O(n^2)
     return NULL;
 }
 
+int myAtoi(const char* str){
+    assert(str);
 
+    int curSym = 0;
+    skipNotN(str, &curSym);
+    return convertSymToInt(str, curSym);
+}
+
+static void skipNotN(const char* str, int* curSym){
+    assert(str);
+    assert(curSym);
+
+    while((!isdigit(str[*curSym])) && (str[*curSym] != '\0')){
+        (*curSym)++;
+        continue;
+    }
+}
+
+static int convertSymToInt(const char* str, int i){
+    assert(str);
+
+    int result = 0;
+    while(isdigit(str[i])){
+        result *= 10;
+        /// -'0' для перехода от символа '0' к int 0
+        result += (str[i] - '0');
+        i++;
+    }
+
+    return result;
+}
 
 
 

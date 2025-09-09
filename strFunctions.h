@@ -24,4 +24,6 @@ size_t myGetLine(char** lineptr, size_t* n, FILE* stream);
 int mysStrCmpBeta(const char* lhs, const char* rhs);
 const char* myStrStr(const char* str, const char* substr);
 
+int myAtoi(const char* str);
+
 #endif /*STR_FUNC*/
